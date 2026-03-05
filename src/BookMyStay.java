@@ -1,47 +1,35 @@
-// Abstract Room class
-abstract class Room {
+import java.util.HashMap;
 
-    int beds;
-    int size;
-    double price;
+// Inventory class to manage room availability
+class RoomInventory {
 
-    Room(int beds, int size, double price) {
-        this.beds = beds;
-        this.size = size;
-        this.price = price;
+    private HashMap<String, Integer> inventory;
+
+    // Constructor to initialize inventory
+    RoomInventory() {
+        inventory = new HashMap<>();
+
+        inventory.put("Single Room", 5);
+        inventory.put("Double Room", 3);
+        inventory.put("Suite Room", 2);
     }
 
-    void displayDetails(String type, int available) {
-        System.out.println(type + ":");
-        System.out.println("Beds: " + beds);
-        System.out.println("Size: " + size + " sqft");
-        System.out.println("Price per night: " + price);
-        System.out.println("Available: " + available);
-        System.out.println();
+    // Method to get availability
+    public int getAvailability(String roomType) {
+        return inventory.getOrDefault(roomType, 0);
     }
-}
 
-// Single Room
-class SingleRoom extends Room {
-
-    SingleRoom() {
-        super(1, 250, 1500.0);
+    // Method to update availability
+    public void updateAvailability(String roomType, int count) {
+        inventory.put(roomType, count);
     }
-}
 
-// Double Room
-class DoubleRoom extends Room {
-
-    DoubleRoom() {
-        super(2, 400, 2500.0);
-    }
-}
-
-// Suite Room
-class SuiteRoom extends Room {
-
-    SuiteRoom() {
-        super(3, 750, 5000.0);
+    // Display inventory
+    public void displayInventory() {
+        System.out.println("Current Room Inventory:");
+        for (String room : inventory.keySet()) {
+            System.out.println(room + " Available: " + inventory.get(room));
+        }
     }
 }
 
@@ -50,18 +38,13 @@ class BookMyStep {
 
     public static void main(String[] args) {
 
-        System.out.println("Hotel Room Initialization\n");
+        System.out.println("Hotel Room Inventory System\n");
 
-        Room single = new SingleRoom();
-        Room doubleRoom = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        // Initialize inventory
+        RoomInventory inventory = new RoomInventory();
 
-        int singleAvailable = 5;
-        int doubleAvailable = 3;
-        int suiteAvailable = 2;
+        // Display inventory
+        inventory.displayInventory();
 
-        single.displayDetails("Single Room", singleAvailable);
-        doubleRoom.displayDetails("Double Room", doubleAvailable);
-        suite.displayDetails("Suite Room", suiteAvailable);
     }
 }
